@@ -8,13 +8,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
-## Usage
-
-```javascript
-// Lorem ipsum placeholder code
-const example = "Hello World";
-```
-
 ## Features
 
 - Lorem ipsum dolor sit amet
