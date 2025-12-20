@@ -32,6 +32,10 @@ async function loadContacts() {
   const res = await fetch(API_URL);
   const data = await res.json();
 
+  // update total count
+  document.getElementById("total-count").textContent =
+  `Total contacts: ${data.length}`;
+
   // if no contacts, show 3 empty rows
   if (data.length === 0) {
     for (let i = 0; i < 3; i++) {
@@ -45,13 +49,49 @@ async function loadContacts() {
   // show contacts
   data.forEach(c => {
     const row = document.createElement("tr");
+
     row.innerHTML = `
       <td>${c.name}</td>
       <td>${c.phone}</td>
       <td>${c.email || "-"}</td>
+      <td>
+        <button onclick="editContact('${c._id}', '${c.name}', '${c.phone}', '${c.email || ""}')">Edit</button>
+        <button onclick="deleteContact('${c._id}')">Delete</button>
+      </td>
     `;
+
     tableBody.appendChild(row);
   });
+}
+
+// Delete contact
+async function deleteContact(id) {
+  if (!confirm("Delete this contact?")) return;
+
+  await fetch(`${API_URL}/${id}`, {
+    method: "DELETE"
+  });
+
+  loadContacts();
+}
+
+// Edit contact
+async function editContact(id, oldName, oldPhone, oldEmail) {
+  const name = prompt("Edit name:", oldName);
+  if (name === null) return;
+
+  const phone = prompt("Edit phone:", oldPhone);
+  if (phone === null) return;
+
+  const email = prompt("Edit email:", oldEmail);
+
+  await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, phone, email })
+  });
+
+  loadContacts();
 }
 
 loadContacts();
