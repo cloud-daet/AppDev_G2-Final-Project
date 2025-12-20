@@ -15,6 +15,8 @@ router.get("/", async (req, res) => {
 
 // POST new contact
 router.post("/", async (req, res) => {
+  console.log("REQ BODY:", req.body); // 👈 ADD THIS LINE
+
   const contact = new Contact(req.body);
 
   try {
