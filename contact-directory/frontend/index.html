@@ -9,13 +9,26 @@
 <h1>Contact Directory</h1>
 
 <form id="contact-form">
-  <input type="text" id="name" placeholder="Name" required>
-  <input type="text" id="phone" placeholder="Phone" required>
-  <input type="email" id="email" placeholder="Email">
+  <input type="text" id="name" name="name" placeholder="Name" required>
+  <input type="text" id="phone" name="phone" placeholder="Phone" required>
+  <input type="email" id="email" name="email" placeholder="Email">
   <button type="submit">Add Contact</button>
 </form>
 
-<ul id="contact-list"></ul>
+<table id="contact-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody id="contact-body">
+    <tr><td colspan="3">No contacts yet</td></tr>
+    <tr><td colspan="3">No contacts yet</td></tr>
+    <tr><td colspan="3">No contacts yet</td></tr>
+  </tbody>
+</table>
 
 <script src="script.js"></script>
 </body>

@@ -6,3 +6,24 @@ body {
 input, button {
   margin: 5px;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td[colspan="3"] {
+  text-align: center;
+  color: #777;
+}
