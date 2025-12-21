@@ -11,6 +11,21 @@ const searchInput = document.getElementById("search");
 
 let allContacts = [];
 
+const editModal = document.getElementById("edit-modal");
+const editName = document.getElementById("edit-name");
+const editPhone = document.getElementById("edit-phone");
+const editEmail = document.getElementById("edit-email");
+const saveEditBtn = document.getElementById("save-edit");
+const cancelEditBtn = document.getElementById("cancel-edit");
+
+let editingId = null;
+
+const deleteModal = document.getElementById("delete-modal");
+const confirmDeleteBtn = document.getElementById("confirm-delete");
+const cancelDeleteBtn = document.getElementById("cancel-delete");
+
+let deletingId = null;
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -86,33 +101,56 @@ searchInput.addEventListener("input", () => {
 });
 
 // Delete contact
-async function deleteContact(id) {
-  if (!confirm("Delete this contact?")) return;
-
-  await fetch(`${API_URL}/${id}`, {
-    method: "DELETE"
-  });
-
-  loadContacts();
+function deleteContact(id) {
+  deletingId = id;
+  deleteModal.classList.remove("hidden");
 }
 
 // Edit contact
-async function editContact(id, oldName, oldPhone, oldEmail) {
-  const name = prompt("Edit name:", oldName);
-  if (name === null) return;
+function editContact(id, name, phone, email) {
+  editingId = id;
 
-  const phone = prompt("Edit phone:", oldPhone);
-  if (phone === null) return;
+  editName.value = name;
+  editPhone.value = phone;
+  editEmail.value = email;
 
-  const email = prompt("Edit email:", oldEmail);
+  editModal.classList.remove("hidden");
+}
 
-  await fetch(`${API_URL}/${id}`, {
+saveEditBtn.addEventListener("click", async () => {
+  await fetch(`${API_URL}/${editingId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, phone, email })
+    body: JSON.stringify({
+      name: editName.value,
+      phone: editPhone.value,
+      email: editEmail.value
+    })
   });
 
+  editModal.classList.add("hidden");
+  editingId = null;
   loadContacts();
-}
+});
+
+cancelEditBtn.addEventListener("click", () => {
+  editModal.classList.add("hidden");
+  editingId = null;
+});
+
+confirmDeleteBtn.addEventListener("click", async () => {
+  await fetch(`${API_URL}/${deletingId}`, {
+    method: "DELETE"
+  });
+
+  deleteModal.classList.add("hidden");
+  deletingId = null;
+  loadContacts();
+});
+
+cancelDeleteBtn.addEventListener("click", () => {
+  deleteModal.classList.add("hidden");
+  deletingId = null;
+});
 
 loadContacts();
