@@ -84,7 +84,7 @@ function renderTable(data) {
   });
 }
 
-// 🔍 LIVE SEARCH
+// LIVE SEARCH
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
 
@@ -95,6 +95,39 @@ searchInput.addEventListener("input", () => {
 
   const filtered = allContacts.filter(c =>
     c.name.toLowerCase().includes(query)
+  );
+
+  renderTable(filtered);
+});
+
+const searchMailInput = document.getElementById("searchMail");
+searchMailInput.addEventListener("input", () => {
+  const query = searchMailInput.value.toLowerCase();
+
+  if (query === "") {
+    renderTable(allContacts);
+    return;
+  }
+
+  const filtered = allContacts.filter(c =>
+    c.email.toLowerCase().includes(query)
+  );
+
+  renderTable(filtered);
+});
+
+// LIVE SEARCH BY PHONE NUMBER
+const searchNumberInput = document.getElementById("searchNumber");
+searchNumberInput.addEventListener("input", () => {
+  const query = searchNumberInput.value.toLowerCase();
+
+  if (query === "") {
+    renderTable(allContacts);
+    return;
+  }
+
+  const filtered = allContacts.filter(c =>
+    c.phone.toLowerCase().includes(query)
   );
 
   renderTable(filtered);
