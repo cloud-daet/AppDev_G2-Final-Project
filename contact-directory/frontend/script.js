@@ -8,8 +8,17 @@ const phoneInput = document.getElementById("phone");
 const emailInput = document.getElementById("email");
 
 const searchInput = document.getElementById("search");
+const searchMailInput = document.getElementById("searchMail");
+const searchNumberInput = document.getElementById("searchNumber");
+
+const sortBtn = document.getElementById("sort-toggle");
 
 let allContacts = [];
+let sortMode = 0;
+// 0 = original
+// 1 = A-Z
+// 2 = Z-A
+// 3 = recent
 
 const editModal = document.getElementById("edit-modal");
 const editName = document.getElementById("edit-name");
@@ -26,6 +35,7 @@ const cancelDeleteBtn = document.getElementById("cancel-delete");
 
 let deletingId = null;
 
+// ADD CONTACT
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -46,19 +56,58 @@ form.addEventListener("submit", async (e) => {
   updateFooterMessage();
 });
 
+// LOAD CONTACTS
 async function loadContacts() {
   const res = await fetch(API_URL);
   allContacts = await res.json();
-  renderTable(allContacts);
+
+  allContacts.forEach((c, i) => c._originalIndex = i);
+
+  applyFiltersAndSort();
 }
 
+// FILTER + SORT
+function applyFiltersAndSort() {
+  let data = [...allContacts];
+
+  const nameQuery = searchInput.value.toLowerCase();
+  const mailQuery = searchMailInput.value.toLowerCase();
+  const phoneQuery = searchNumberInput.value.toLowerCase();
+
+  if (nameQuery) {
+    data = data.filter(c => c.name.toLowerCase().includes(nameQuery));
+  }
+
+  if (mailQuery) {
+    data = data.filter(c =>
+      (c.email || "").toLowerCase().includes(mailQuery)
+    );
+  }
+
+  if (phoneQuery) {
+    data = data.filter(c => c.phone.includes(phoneQuery));
+  }
+
+  if (sortMode === 1) {
+    data.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortMode === 2) {
+    data.sort((a, b) => b.name.localeCompare(a.name));
+  } else if (sortMode === 3) {
+    data.sort((a, b) => b._originalIndex - a._originalIndex);
+  } else {
+    data.sort((a, b) => a._originalIndex - b._originalIndex);
+  }
+
+  renderTable(data);
+}
+
+// RENDER TABLE
 function renderTable(data) {
   tableBody.innerHTML = "";
 
   document.getElementById("total-count").textContent =
     `Total contacts: ${data.length}`;
 
-  // show empty rows if no data
   if (data.length === 0) {
     for (let i = 0; i < 3; i++) {
       const row = document.createElement("tr");
@@ -70,7 +119,6 @@ function renderTable(data) {
 
   data.forEach(c => {
     const row = document.createElement("tr");
-
     row.innerHTML = `
       <td>${c.name}</td>
       <td>${c.phone}</td>
@@ -80,74 +128,52 @@ function renderTable(data) {
         <button onclick="deleteContact('${c._id}')">Delete</button>
       </td>
     `;
-
     tableBody.appendChild(row);
   });
 }
 
-// LIVE SEARCH
-searchInput.addEventListener("input", () => {
-  const query = searchInput.value.toLowerCase();
+// SEARCH EVENTS
+searchInput.addEventListener("input", applyFiltersAndSort);
+searchMailInput.addEventListener("input", applyFiltersAndSort);
+searchNumberInput.addEventListener("input", applyFiltersAndSort);
 
-  if (query === "") {
-    renderTable(allContacts);
-    return;
-  }
+// SORT TOGGLE
+sortBtn.addEventListener("click", () => {
+  sortMode = (sortMode + 1) % 4;
 
-  const filtered = allContacts.filter(c =>
-    c.name.toLowerCase().includes(query)
-  );
+  if (sortMode === 1) sortBtn.textContent = "Sort: A to Z";
+  else if (sortMode === 2) sortBtn.textContent = "Sort: Z to A";
+  else if (sortMode === 3) sortBtn.textContent = "Sort: Recent";
+  else sortBtn.textContent = "Sort: Oldest";
 
-  renderTable(filtered);
+  applyFiltersAndSort();
 });
 
-const searchMailInput = document.getElementById("searchMail");
-searchMailInput.addEventListener("input", () => {
-  const query = searchMailInput.value.toLowerCase();
-
-  if (query === "") {
-    renderTable(allContacts);
-    return;
-  }
-
-  const filtered = allContacts.filter(c =>
-    c.email.toLowerCase().includes(query)
-  );
-
-  renderTable(filtered);
-});
-
-// LIVE SEARCH BY PHONE NUMBER
-const searchNumberInput = document.getElementById("searchNumber");
-searchNumberInput.addEventListener("input", () => {
-  const query = searchNumberInput.value.toLowerCase();
-
-  if (query === "") {
-    renderTable(allContacts);
-    return;
-  }
-
-  const filtered = allContacts.filter(c =>
-    c.phone.toLowerCase().includes(query)
-  );
-
-  renderTable(filtered);
-});
-
-// Delete contact
+// DELETE
 function deleteContact(id) {
   deletingId = id;
   deleteModal.classList.remove("hidden");
 }
 
-// Edit contact
+confirmDeleteBtn.addEventListener("click", async () => {
+  await fetch(`${API_URL}/${deletingId}`, { method: "DELETE" });
+  deleteModal.classList.add("hidden");
+  deletingId = null;
+  loadContacts();
+  updateFooterMessage();
+});
+
+cancelDeleteBtn.addEventListener("click", () => {
+  deleteModal.classList.add("hidden");
+  deletingId = null;
+});
+
+// EDIT
 function editContact(id, name, phone, email) {
   editingId = id;
-
   editName.value = name;
   editPhone.value = phone;
   editEmail.value = email;
-
   editModal.classList.remove("hidden");
 }
 
@@ -171,23 +197,6 @@ saveEditBtn.addEventListener("click", async () => {
 cancelEditBtn.addEventListener("click", () => {
   editModal.classList.add("hidden");
   editingId = null;
-});
-
-confirmDeleteBtn.addEventListener("click", async () => {
-  await fetch(`${API_URL}/${deletingId}`, {
-    method: "DELETE"
-  });
-
-  deleteModal.classList.add("hidden");
-  deletingId = null;
-  loadContacts();
-  updateFooterMessage();
-
-});
-
-cancelDeleteBtn.addEventListener("click", () => {
-  deleteModal.classList.add("hidden");
-  deletingId = null;
 });
 
 document.addEventListener("DOMContentLoaded", () => {
