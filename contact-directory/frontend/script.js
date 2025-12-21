@@ -43,6 +43,7 @@ form.addEventListener("submit", async (e) => {
 
   form.reset();
   loadContacts();
+  updateFooterMessage();
 });
 
 async function loadContacts() {
@@ -164,6 +165,7 @@ saveEditBtn.addEventListener("click", async () => {
   editModal.classList.add("hidden");
   editingId = null;
   loadContacts();
+  updateFooterMessage();
 });
 
 cancelEditBtn.addEventListener("click", () => {
@@ -179,6 +181,8 @@ confirmDeleteBtn.addEventListener("click", async () => {
   deleteModal.classList.add("hidden");
   deletingId = null;
   loadContacts();
+  updateFooterMessage();
+
 });
 
 cancelDeleteBtn.addEventListener("click", () => {
@@ -186,4 +190,37 @@ cancelDeleteBtn.addEventListener("click", () => {
   deletingId = null;
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const footerMessages = [
+  "i'm suffering - Cloud 2025",
+  "why is this working",
+  "Fun Fact: Cloud died 3 times when running \"npm init --y\"",
+  "deadline approaching fast, and i am one lazy mf - Cloud",
+  "This footer is brought to you by Raid Shadow Leg-",
+  "Did you know? Cloud made this footer feature for no reason at all.",
+  "If you're reading this, congrats! You've found the secret footer message.",
+  "Cloud was here. Now you are too.",
+  "This footer message changes randomly. Just like Cloud's motivation",
+  "...",
+  "Winter (from The Four Seasons) by Antonio Vivaldi",
+  "Experience by Ludovico Einaudi is majestic - Cloud",
+  "asdfghjklqwertyuiopzxcvbnm - Cloud",
+  "cram",
+  // you can add more messages here
+];
+
+  const footerEl = document.getElementById("footer-message");
+
+  function updateFooterMessage() {
+    const randomIndex = Math.floor(Math.random() * footerMessages.length);
+    footerEl.textContent = footerMessages[randomIndex];
+  }
+
+  // expose globally so other functions can call it
+  window.updateFooterMessage = updateFooterMessage;
+
+  updateFooterMessage();
+});
+
 loadContacts();
+updateFooterMessage();
