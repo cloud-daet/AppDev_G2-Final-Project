@@ -7,6 +7,10 @@ const nameInput = document.getElementById("name");
 const phoneInput = document.getElementById("phone");
 const emailInput = document.getElementById("email");
 
+const searchInput = document.getElementById("search");
+
+let allContacts = [];
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -27,26 +31,27 @@ form.addEventListener("submit", async (e) => {
 });
 
 async function loadContacts() {
+  const res = await fetch(API_URL);
+  allContacts = await res.json();
+  renderTable(allContacts);
+}
+
+function renderTable(data) {
   tableBody.innerHTML = "";
 
-  const res = await fetch(API_URL);
-  const data = await res.json();
-
-  // update total count
   document.getElementById("total-count").textContent =
-  `Total contacts: ${data.length}`;
+    `Total contacts: ${data.length}`;
 
-  // if no contacts, show 3 empty rows
+  // show empty rows if no data
   if (data.length === 0) {
     for (let i = 0; i < 3; i++) {
       const row = document.createElement("tr");
-      row.innerHTML = `<td colspan="3">No contacts yet</td>`;
+      row.innerHTML = `<td colspan="4">No contacts yet</td>`;
       tableBody.appendChild(row);
     }
     return;
   }
 
-  // show contacts
   data.forEach(c => {
     const row = document.createElement("tr");
 
@@ -63,6 +68,22 @@ async function loadContacts() {
     tableBody.appendChild(row);
   });
 }
+
+// 🔍 LIVE SEARCH
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
+
+  if (query === "") {
+    renderTable(allContacts);
+    return;
+  }
+
+  const filtered = allContacts.filter(c =>
+    c.name.toLowerCase().includes(query)
+  );
+
+  renderTable(filtered);
+});
 
 // Delete contact
 async function deleteContact(id) {
