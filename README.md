@@ -32,6 +32,10 @@ contact-directory/
     └── style.css            # Styling
 ```
 
-## Contributing
+## Contributors
 
-Contributions are welcome! Please feel free to submit pull requests or report issues.
+**Lead Developer**
+- Cloud Daet
+
+**Honorable Mentions**
+- GitCopilot
