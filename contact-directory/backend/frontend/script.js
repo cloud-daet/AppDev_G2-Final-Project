@@ -1,4 +1,3 @@
-// const API_URL = "http://localhost:5000/api/contacts";
 const API_URL = "/api/contacts";
 
 const form = document.getElementById("contact-form");
@@ -13,16 +12,25 @@ const searchMailInput = document.getElementById("searchMail");
 const searchNumberInput = document.getElementById("searchNumber");
 const sortBtn = document.getElementById("sort-toggle");
 
-let allContacts = [];
-let sortMode = 0;
-
 const editModal = document.getElementById("edit-modal");
 const deleteModal = document.getElementById("delete-modal");
 
+const editName = document.getElementById("edit-name");
+const editPhone = document.getElementById("edit-phone");
+const editEmail = document.getElementById("edit-email");
+
+const saveEditBtn = document.getElementById("save-edit");
+const cancelEditBtn = document.getElementById("cancel-edit");
+
+const confirmDeleteBtn = document.getElementById("confirm-delete");
+const cancelDeleteBtn = document.getElementById("cancel-delete");
+
+let allContacts = [];
+let sortMode = 0;
 let editingId = null;
 let deletingId = null;
 
-// ADD
+/* ================= ADD CONTACT ================= */
 form.addEventListener("submit", async e => {
   e.preventDefault();
 
@@ -41,26 +49,32 @@ form.addEventListener("submit", async e => {
   updateFooterMessage();
 });
 
-// LOAD
+/* ================= LOAD ================= */
 async function loadContacts() {
   const res = await fetch(API_URL);
   allContacts = await res.json();
-  allContacts.forEach((c, i) => c._originalIndex = i);
+  allContacts.forEach((c, i) => (c._originalIndex = i));
   applyFiltersAndSort();
 }
 
-// FILTER + SORT
+/* ================= FILTER + SORT ================= */
 function applyFiltersAndSort() {
   let data = [...allContacts];
 
   if (searchInput.value)
-    data = data.filter(c => c.name.toLowerCase().includes(searchInput.value.toLowerCase()));
+    data = data.filter(c =>
+      c.name.toLowerCase().includes(searchInput.value.toLowerCase())
+    );
 
   if (searchMailInput.value)
-    data = data.filter(c => (c.email || "").toLowerCase().includes(searchMailInput.value.toLowerCase()));
+    data = data.filter(c =>
+      (c.email || "").toLowerCase().includes(searchMailInput.value.toLowerCase())
+    );
 
   if (searchNumberInput.value)
-    data = data.filter(c => c.phone.includes(searchNumberInput.value));
+    data = data.filter(c =>
+      c.phone.includes(searchNumberInput.value)
+    );
 
   if (sortMode === 1) data.sort((a, b) => a.name.localeCompare(b.name));
   else if (sortMode === 2) data.sort((a, b) => b.name.localeCompare(a.name));
@@ -70,14 +84,16 @@ function applyFiltersAndSort() {
   renderTable(data);
 }
 
-// RENDER
+/* ================= RENDER ================= */
 function renderTable(data) {
   tableBody.innerHTML = "";
-  document.getElementById("total-count").textContent = `Total contacts: ${data.length}`;
+  document.getElementById("total-count").textContent =
+    `Total contacts: ${data.length}`;
 
   if (!data.length) {
-    for (let i = 0; i < 3; i++)
+    for (let i = 0; i < 3; i++) {
       tableBody.innerHTML += `<tr><td colspan="4">No contacts yet</td></tr>`;
+    }
     return;
   }
 
@@ -91,23 +107,85 @@ function renderTable(data) {
           <button onclick="editContact('${c._id}','${c.name}','${c.phone}','${c.email || ""}')">Edit</button>
           <button onclick="deleteContact('${c._id}')">Delete</button>
         </td>
-      </tr>`;
+      </tr>
+    `;
   });
 }
 
-// SORT
+/* ================= SORT ================= */
 sortBtn.addEventListener("click", () => {
   sortMode = (sortMode + 1) % 4;
-  sortBtn.textContent = ["Sort: Oldest", "Sort: A-Z", "Sort: Z-A", "Sort: Recent"][sortMode];
+  sortBtn.textContent = [
+    "Sort: Oldest",
+    "Sort: A-Z",
+    "Sort: Z-A",
+    "Sort: Recent"
+  ][sortMode];
   applyFiltersAndSort();
 });
 
-// SEARCH
+/* ================= SEARCH ================= */
 [searchInput, searchMailInput, searchNumberInput].forEach(i =>
   i.addEventListener("input", applyFiltersAndSort)
 );
 
-// FOOTER
+/* ================= EDIT / DELETE (GLOBAL) ================= */
+window.editContact = function (id, name, phone, email) {
+  editingId = id;
+  editName.value = name;
+  editPhone.value = phone;
+  editEmail.value = email;
+  editModal.classList.remove("hidden");
+};
+
+window.deleteContact = function (id) {
+  deletingId = id;
+  deleteModal.classList.remove("hidden");
+};
+
+/* ================= EDIT MODAL ================= */
+saveEditBtn.addEventListener("click", async () => {
+  if (!editingId) return;
+
+  await fetch(`${API_URL}/${editingId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: editName.value,
+      phone: editPhone.value,
+      email: editEmail.value
+    })
+  });
+
+  editModal.classList.add("hidden");
+  editingId = null;
+  loadContacts();
+  updateFooterMessage();
+});
+
+cancelEditBtn.addEventListener("click", () => {
+  editModal.classList.add("hidden");
+  editingId = null;
+});
+
+/* ================= DELETE MODAL ================= */
+confirmDeleteBtn.addEventListener("click", async () => {
+  if (!deletingId) return;
+
+  await fetch(`${API_URL}/${deletingId}`, { method: "DELETE" });
+
+  deleteModal.classList.add("hidden");
+  deletingId = null;
+  loadContacts();
+  updateFooterMessage();
+});
+
+cancelDeleteBtn.addEventListener("click", () => {
+  deleteModal.classList.add("hidden");
+  deletingId = null;
+});
+
+/* ================= FOOTER ================= */
 const footerMessages = [
   "i'm suffering - Cloud 2025",
   "why is this working",
@@ -131,6 +209,7 @@ function updateFooterMessage() {
     footerMessages[Math.floor(Math.random() * footerMessages.length)];
 }
 
+/* ================= INIT ================= */
 document.addEventListener("DOMContentLoaded", () => {
   updateFooterMessage();
   loadContacts();
