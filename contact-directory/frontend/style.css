@@ -1,0 +1,496 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+#total-count {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    background: rgba(255,255,255,0.2);
+    padding: 8px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.form-card, .contacts-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.form-card h2 {
+    color: #667eea;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+#contact-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+#contact-form input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#contact-form button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+#contact-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.search-section {
+    margin-bottom: 25px;
+}
+
+.search-section h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.search-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-grid input {
+    padding: 10px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.search-grid input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#sort-toggle {
+    padding: 10px 20px;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    background: white;
+    color: #667eea;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#sort-toggle:hover {
+    background: #667eea;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+tr:hover {
+    background: #f8f9fa;
+}
+
+td[colspan="4"] {
+    text-align: center;
+    color: #95a5a6;
+    font-style: italic;
+}
+
+td button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 5px;
+}
+
+td button:first-child {
+    background: #3498db;
+    color: white;
+}
+
+td button:first-child:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+td button:last-child {
+    background: #e74c3c;
+    color: white;
+}
+
+td button:last-child:hover {
+    background: #c0392b;
+    transform: translateY(-1px);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 35px;
+    width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-content h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modal-content p {
+    color: #555;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#save-edit, #confirm-delete {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+#save-edit:hover, #confirm-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+#cancel-edit, #cancel-delete {
+    background: #95a5a6;
+    color: white;
+}
+
+#cancel-edit:hover, #cancel-delete:hover {
+    background: #7f8c8d;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 2px solid rgba(102, 126, 234, 0.3);
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+}
+
+footer p:first-child {
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+#footer-message {
+    font-style: italic;
+    color: #888;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}
+
+/* =========================
+   MOBILE RESPONSIVENESS
+   ========================= */
+
+/* Tablets & small screens */
+@media (max-width: 768px) {
+
+  body {
+    padding: 15px;
+    padding-bottom: 120px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  #total-count {
+    font-size: 1rem;
+    padding: 6px 16px;
+  }
+
+  .main-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .form-card,
+  .contacts-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  /* Prevent mobile zoom */
+  input,
+  button {
+    font-size: 16px;
+  }
+
+  #contact-form input {
+    padding: 14px;
+  }
+
+  #contact-form button {
+    padding: 14px;
+  }
+
+  /* Search */
+  .search-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  #sort-toggle {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+  }
+
+  /* Table scrolling */
+  .contacts-card {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 650px;
+  }
+
+  th,
+  td {
+    padding: 12px;
+  }
+
+  td button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  footer {
+    padding: 15px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+
+  body {
+    padding: 12px;
+    padding-bottom: 130px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  #total-count {
+    font-size: 0.9rem;
+  }
+
+  .form-card h2,
+  .search-section h3 {
+    font-size: 1.2rem;
+  }
+
+  /* Modal */
+  .modal-content {
+    width: 92%;
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .modal-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    padding: 12px;
+  }
+
+  footer {
+    font-size: 0.8rem;
+    padding: 12px;
+  }
+}
