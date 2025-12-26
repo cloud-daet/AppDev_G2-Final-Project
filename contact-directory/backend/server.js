@@ -3,10 +3,18 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import contactRoutes from "./routes/contacts.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
-dotenv.config();
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
+
+// frontend
+app.use(express.static(path.join(__dirname, "frontend")));
+
+// load env variables
+dotenv.config();
 
 // middleware
 app.use(cors());
