@@ -110,8 +110,19 @@ sortBtn.addEventListener("click", () => {
 const footerMessages = [
   "i'm suffering - Cloud 2025",
   "why is this working",
-  "deadline approaching fast",
-  "Cloud was here"
+  "Fun Fact: Cloud died 3 times when running \"npm init --y\"",
+  "deadline approaching fast, and i am one lazy mf - Cloud",
+  "This footer is brought to you by Raid Shadow Leg-",
+  "Did you know? Cloud made this footer feature for no reason at all.",
+  "If you're reading this, congrats! You've found the secret footer message.",
+  "Cloud was here. Now you are too.",
+  "This footer message changes randomly. Just like Cloud's motivation",
+  "...",
+  "Winter (from The Four Seasons) by Antonio Vivaldi",
+  "Experience by Ludovico Einaudi is majestic - Cloud",
+  "asdfghjklqwertyuiopzxcvbnm - Cloud",
+  "cram",
+  // you can add more messages here
 ];
 
 function updateFooterMessage() {
