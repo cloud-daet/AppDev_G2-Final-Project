@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact Directory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Contact Directory</h1>
+    <p id="total-count">Total contacts: 0</p>
+  </div>
+
+  <form id="contact-form">
+    <input type="text" id="name" name="name" placeholder="Name" required>
+    <input type="text" id="phone" name="phone" placeholder="Phone" required>
+    <input type="email" id="email" name="email" placeholder="Email">
+    <button type="submit">Add Contact</button>
+  </form>
+
+  <input
+    type="text"
+    id="search"
+    placeholder="Search by name..."
+  >
+
+  <input
+    type="number"
+    id="searchNumber"
+    placeholder="Search by phone number..."
+  >
+
+  <input
+    type="email"
+    id="searchMail"
+    placeholder="Search by email..."
+  >
+
+  <button id="sort-toggle">Sort: Oldest</button>
+
+  <table id="contact-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="contact-body">
+      <tr><td colspan="4">No contacts yet</td></tr>
+      <tr><td colspan="4">No contacts yet</td></tr>
+      <tr><td colspan="4">No contacts yet</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Edit Contact</h3>
+
+      <input type="text" id="edit-name" placeholder="Name">
+      <input type="text" id="edit-phone" placeholder="Phone">
+      <input type="email" id="edit-email" placeholder="Email">
+
+      <div class="modal-actions">
+        <button id="save-edit">Save</button>
+        <button id="cancel-edit">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div id="delete-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Delete Contact</h3>
+      <p>Are you sure you want to delete this contact?</p>
+
+      <div class="modal-actions">
+        <button id="confirm-delete">Delete</button>
+        <button id="cancel-delete">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+<footer>
+  <p>&copy; 2025 Contact Directory App (AppDev Finals Project)</p>
+  <p id="footer-message"></p>
+</footer>
+
+</html>
