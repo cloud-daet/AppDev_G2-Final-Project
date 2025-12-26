@@ -1,44 +1,228 @@
-# Contact Directory
+# 📇 Contact Directory App  
+AppDev Final Project – Group 2
 
-A full-stack web application for managing and organizing contact information with a Node.js backend and vanilla JavaScript frontend.
+---
 
-## Description
+## 📌 Project Overview
 
-Contact Directory is a simple yet functional application that allows users to create, view, and manage contact information. The application consists of a backend API built with Express.js and a frontend interface for easy interaction with contact data.
+This is a full-stack **Contact Directory** web application built with:
 
-## Features
+- Node.js + Express.js (Backend API)
+- MongoDB Atlas (Database)
+- Vanilla HTML, CSS, JavaScript (Frontend)
+- Render.com (Deployment)
 
-- Create and store new contacts
-- View all contacts in a user-friendly interface
-- RESTful API backend for contact management
-- Responsive frontend with clean UI
-- MongoDB integration for persistent data storage
+### Key Features
+- Add new contacts  
+- Edit existing contacts  
+- Delete contacts  
+- Live search by name, phone, and email  
+- Sort contacts (A–Z, Z–A, most recent)  
+- Responsive frontend UI  
+- Persistent storage via MongoDB Atlas  
 
-## Project Structure
+All features are accessible through a browser-based interface.
 
-```txt
-contact-directory/
-├── backend/
-│   ├── .env                 # Environment variables
-│   ├── package.json         # Backend dependencies
-│   ├── server.js            # Express server setup
-│   ├── models/
-│   │   └── Contact.js       # Contact data model
-│   └── routes/
-│       └── contacts.js      # Contact API routes
-└── frontend/
-    ├── index.html           # HTML structure
-    ├── script.js            # JavaScript functionality
-    └── style.css            # Styling
+---
+
+## 🚀 Live Demo
+
+Deployed using Render.com:  
+https://appdev-g2-final-project.onrender.com/
+
+---
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|------|-----------|
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| Hosting | Render |
+
+---
+
+## 🧪 How to Use
+
+### Home Page
+After loading the app, you will see:
+- A form to add contacts
+- Search filters
+- Sort button
+- Contacts table
+- Total contact count
+- Edit and Delete buttons
+
+---
+
+### ➕ Adding a Contact
+1. Enter **Name** and **Phone** (required)
+2. Optionally enter **Email**
+3. Click **Add Contact**
+4. The contact is saved and displayed in the table
+
+---
+
+### ✏️ Editing a Contact
+1. Click **Edit** beside a contact
+2. A modal window opens
+3. Update the fields
+4. Click **Save**
+
+---
+
+### 🗑️ Deleting a Contact
+1. Click **Delete**
+2. A confirmation modal appears
+3. Click **Delete** to confirm
+
+---
+
+### 🔍 Searching
+Live search is available by:
+- Name
+- Phone number
+- Email address
+
+The table updates automatically as you type.
+
+---
+
+### 🔁 Sorting
+Click the **Sort** button to cycle through:
+1. Oldest
+2. A–Z
+3. Z–A
+4. Most Recent
+
+---
+
+## 🛠️ Running Locally
+
+### Prerequisites
+- Node.js installed
+- npm installed
+- MongoDB Atlas account (Free Tier)
+
+---
+
+### Step 1 — Clone the Repository
+```
+git clone https://github.com/cloud-daet/AppDev_G2-Final-Project.git
+cd AppDev_G2-Final-Project/contact-directory/backend
 ```
 
-## Contributors
+---
 
-**Lead Developer**
+### Step 2 — Install Dependencies
+```
+npm install
+```
+
+---
+
+### Step 3 — Environment Variables
+Copy the example file:
+```
+cp .env.example .env
+```
+
+Edit `.env` and set:
+```
+PORT=5000
+MONGO_URI=your_mongodb_atlas_connection_string
+```
+
+Example MongoDB URI:
+```
+mongodb+srv://<username>:<password>@cluster0.mongodb.net/<dbname>?retryWrites=true&w=majority
+```
+
+---
+
+### Step 4 — Run the Development Server
+```
+npm run dev
+```
+
+Open in browser:
+```
+[http://localhost:5000](http://localhost:5000)
+```
+
+---
+
+## 📦 Deployment (Render.com)
+
+1. Push your code to GitHub
+2. Go to https://render.com
+3. Click **New → Web Service**
+4. Connect your GitHub repository
+5. Set environment variables:
+   - `PORT = 5000`
+   - `MONGO_URI = MongoDB Atlas URI`
+6. Build Command:
+
+```
+npm install
+```
+
+7. Start Command:
+
+```
+node server.js
+```
+
+8. Deploy
+
+Render will provide a public URL for your application.
+
+---
+
+## 🗄️ Database Hosting (MongoDB Atlas)
+
+1. Sign up at https://www.mongodb.com/atlas
+2. Create a **Free Cluster**
+3. Whitelist IP: `0.0.0.0/0`
+4. Create a database user
+5. Copy the connection string
+6. Paste it into `.env`
+
+---
+
+## 🔒 Security Notes
+
+- Never commit `.env`
+- Only commit `.env.example`
+- MongoDB credentials must remain private
+
+---
+
+## 👨‍👩‍👧‍👦 Team Members
+
 - Cloud Daet
-
-**UI Design and Frontend**
 - Emmanuel Bongalon
+- Kendrick Almazan
 
-**Honorable Mentions**
-- GitCopilot
+**Honrable Mentions**
+- GitCopilot & ChatGPT (for helping us keep our sanity intact)
+
+---
+
+## 📹 Video Demonstration
+
+**YouTube Link: ** [paste link here]
+
+---
+
+## 📤 Submission Checklist
+
+- GitHub repository link
+- Live deployed URL
+- Video demonstration link
+- README with instructions and usage
+
+---
+
+This project was developed as part of our **AppDev Final Project**.
