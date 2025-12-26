@@ -37,5 +37,8 @@ contact-directory/
 **Lead Developer**
 - Cloud Daet
 
+**UI Design and Frontend**
+- Emmanuel Bongalon
+
 **Honorable Mentions**
 - GitCopilot
