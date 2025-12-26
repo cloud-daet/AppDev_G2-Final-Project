@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api/contacts";
+// const API_URL = "http://localhost:5000/api/contacts";
+const API_URL = "/api/contacts";
 
 const form = document.getElementById("contact-form");
 const tableBody = document.getElementById("contact-body");
