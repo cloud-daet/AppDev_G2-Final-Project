@@ -23,6 +23,11 @@ app.use(express.json());
 // routes
 app.use("/api/contacts", contactRoutes);
 
+// serve frontend
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+});
+
 // db connection
 mongoose
   .connect(process.env.MONGO_URI)
